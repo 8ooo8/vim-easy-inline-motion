@@ -1,4 +1,3 @@
 # vim-easy-inline-motion
 
-This is a vim plugin which makes your cursor's inline motion faster. This highlightsthe tips of the words in the same line using different colors and the colors will tell you the word you would like to jump to is ?-th word so that you may use the built-in cursor motion command like `5w` to immediately reach it.
-
+Have you ever thought of maximizing the value of the cursor motion commands which jumps across multiple words, e.g. `5w`? This plugin highlight the tips of the words with colors so that by the colors, you may immediately know the motion command to reach your target word. 
