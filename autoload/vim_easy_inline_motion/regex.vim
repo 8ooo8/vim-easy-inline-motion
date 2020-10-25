@@ -1,3 +1,4 @@
+"" API {{{1
 function! vim_easy_inline_motion#regex#get_n_th_word_tip_position(n)
   "" the backward flag does not function as expected when '\%#' is involved
   "" let search_flag = (a:n > 0 ? 'nW' : 'nWb') 
