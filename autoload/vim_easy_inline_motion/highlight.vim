@@ -1,10 +1,13 @@
 "" Variable declaration {{{1
 let s:highlight_groups = []
 let s:highlight_match_id = [] "" storing all match id; no record about what is highlighted by the associated id
-let s:encoding_base_byte_size = 1
+let s:supported_encoding = ['utf-8']
 
 "" API {{{1
 function! vim_easy_inline_motion#highlight#highlight_at(row, col, cterm_color, gui_color)
+  if !_encoding_is_supoorted()
+    echohl WarningMsg | echo '[vim-easy-inline-motion] Warning: the current encoding method is not supported.'
+  endif
   let group_name = _get_highlight_group_name(a:cterm_color, a:gui_color)
   call _add_highlight_match(a:row, a:col, group_name)
 endfunction
@@ -16,19 +19,19 @@ function! vim_easy_inline_motion#highlight#clear_all_highlights()
   let s:highlight_match_id = []
 endfunction
 
-function! vim_easy_inline_motion#highlight#set_encoding_base_byte_size(size)
-  if a:size <= 0
-    throw "Encoding base's byte size cannot be smaller than 1."
-  endif
-  let s:encoding_base_byte_size = a:size
+"" Private functions {{{1
+function! _encoding_is_supoorted()
+  for enc in s:supported_encoding
+    if enc ==? &encoding
+      return 1
+    endif
+  endfor
+  return 0
 endfunction
 
-"" Private functions {{{1
 function! _add_highlight_match(row, col, highlight_group_name)
-  "" call add(s:highlight_match_id, matchaddpos(a:highlight_group_name, [[a:row, a:col], s:encoding_base_byte_size]))
-  let id = matchaddpos(a:highlight_group_name, [[a:row, a:col, s:encoding_base_byte_size]])
+  let id = matchaddpos(a:highlight_group_name, [[a:row, a:col]])
   call add(s:highlight_match_id, id)
-  "" echom 'call add(' .s:highlight_match_id.', '.matchaddpos(a:highlight_group_name, [a:row, a:col]).')'
 endfunction
 
 function! _get_highlight_group_name(cterm_color, gui_color)
