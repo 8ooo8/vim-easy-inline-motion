@@ -1,16 +1,26 @@
-function! vim_easy_inline_motion#highlight_current_line()
-  let tips_to_highlight_in_cterm = len(g:vim_easy_inline_motion_cterm_colors)
-  let tips_to_highlight_in_gui = len(g:vim_easy_inline_motion_gui_colors)
-  let tips_to_highlight = tips_to_highlight_in_cterm > tips_to_highlight_in_gui ? tips_to_highlight_in_cterm : tips_to_highlight_in_gui
+"" API {{{1
+function! vim_easy_inline_motion#highlight_requested_w_and_b_targets()
 
-  for i in range(tips_to_highlight)
-    let cterm_color = i < tips_to_highlight_in_cterm ? g:vim_easy_inline_motion_cterm_colors[i] : ''
-    let gui_color = i < tips_to_highlight_in_gui ? g:vim_easy_inline_motion_gui_colors[i] : ''
+endfunction
+
+function! vim_easy_inline_motion#highlight_w_and_b_targets_on_specified_cursor_position(line, col)
+  let num_of_char_to_highlight = {}
+  let num_of_char_to_highlight['cterm'] = len(g:vim_easy_inline_motion_cterm_colors)
+  let num_of_char_to_highlight['gui'] = len(g:vim_easy_inline_motion_gui_colors)
+  let max_num_of_char_to_highlight = num_of_char_to_highlight['cterm'] > num_of_char_to_highlight['gui'] ? 
+    \ num_of_char_to_highlight['cterm'] : num_of_char_to_highlight['gui']
+
+  for i in range(max_num_of_char_to_highlight)
+    let cterm_color = i < num_of_char_to_highlight['cterm'] ? g:vim_easy_inline_motion_cterm_colors[i] : ''
+    let gui_color = i < num_of_char_to_highlight['gui'] ? g:vim_easy_inline_motion_gui_colors[i] : ''
+    let w_target_char_col = vim_easy_inline_motion#char_locator#get_n_w_target_char_index(getline(a:line), i + 1, a:col - 1) + 1
+    let b_target_char_col = vim_easy_inline_motion#char_locator#get_n_b_target_char_index(getline(a:line), i + 1, a:col - 1) + 1
     
-    let [row1, col1] = vim_easy_inline_motion#regex#get_n_th_word_tip_position(i + 1)
-    let [row2, col2] = vim_easy_inline_motion#regex#get_n_th_word_tip_position(-i - 1)
-    
-    call vim_easy_inline_motion#highlight#highlight_at(row1, col1, cterm_color, gui_color)
-    call vim_easy_inline_motion#highlight#highlight_at(row2, col2, cterm_color, gui_color)
+    if w_target_char_col > 0
+      call vim_easy_inline_motion#highlight#highlight_at(a:line, w_target_char_col, cterm_color, gui_color)
+    endif 
+    if b_target_char_col > 0
+      call vim_easy_inline_motion#highlight#highlight_at(a:line, b_target_char_col, cterm_color, gui_color)
+    endif
   endfor
 endfunction
