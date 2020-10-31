@@ -1,6 +1,13 @@
 "" API {{{1
-function! vim_easy_inline_motion#highlight_requested_w_and_b_targets()
+function! vim_easy_inline_motion#highlight_all_requested_w_and_b_targets()
+  let [curr_buf, curr_line, curr_col, curr_off, curr_curswant] = getcurpos()
 
+  ""highlight as requested
+  for line in range(curr_line - g:vim_easy_inline_motion_adjacent_lines, curr_line + g:vim_easy_inline_motion_adjacent_lines)
+    let rightmost_col = strlen(getline(line))
+    let col = curr_curswant <= rightmost_col ? curr_curswant : rightmost_col
+    call vim_easy_inline_motion#highlight_w_and_b_targets_on_specified_cursor_position(line, col)
+  endfor
 endfunction
 
 function! vim_easy_inline_motion#highlight_w_and_b_targets_on_specified_cursor_position(line, col)
