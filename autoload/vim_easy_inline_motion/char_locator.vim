@@ -1,6 +1,14 @@
 "" API {{{1
 "" w for the built-in 'w' cursor motion 
 function! vim_easy_inline_motion#char_locator#get_n_w_target_char_col_num(text, n, start_position) 
+  let target_col_num = a:start_position
+  for i in range(a:n)
+    let target_col_num = _get_next_w_target_char_col_num(a:text, target_col_num)
+    if target_col_num < 0
+      return -1
+    endif
+  endfor
+  return target_col_num
 endfunction
 
 "" Private functions {{{1
