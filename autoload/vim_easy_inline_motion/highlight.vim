@@ -4,12 +4,12 @@ let s:highlight_match_id = [] "" storing all match id; no record about what is h
 let s:supported_encoding = ['utf-8']
 
 "" API {{{1
-function! vim_easy_inline_motion#highlight#highlight_at(row, col, cterm_color, gui_color)
+function! vim_easy_inline_motion#highlight#highlight_at(line, col, cterm_color, gui_color)
   if !_encoding_is_supoorted()
     echohl WarningMsg | echo '[vim-easy-inline-motion] Warning: the current encoding method is not supported.'
   endif
   let group_name = _get_highlight_group_name(a:cterm_color, a:gui_color)
-  call _add_highlight_match(a:row, a:col, group_name)
+  call _add_highlight_match(a:line, a:col, group_name)
 endfunction
 
 function! vim_easy_inline_motion#highlight#clear_all_highlights()
@@ -29,8 +29,8 @@ function! _encoding_is_supoorted()
   return 0
 endfunction
 
-function! _add_highlight_match(row, col, highlight_group_name)
-  let id = matchaddpos(a:highlight_group_name, [[a:row, a:col]])
+function! _add_highlight_match(line, col, highlight_group_name)
+  let id = matchaddpos(a:highlight_group_name, [[a:line, a:col]])
   call add(s:highlight_match_id, id)
 endfunction
 
