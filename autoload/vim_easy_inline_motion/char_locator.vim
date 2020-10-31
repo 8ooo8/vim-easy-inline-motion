@@ -1,26 +1,26 @@
 "" API {{{1
 "" w for the built-in 'w' cursor motion 
-function! vim_easy_inline_motion#char_locator#get_n_w_target_char_col_num(text, n, start_position) 
-  let target_col_num = a:start_position
+function! vim_easy_inline_motion#char_locator#get_n_w_target_char_index(text, n, start_index) 
+  let target_index = a:start_index
   for i in range(a:n)
-    let target_col_num = _get_next_w_target_char_col_num(a:text, target_col_num)
-    if target_col_num < 0
+    let target_index = _get_next_w_target_char_index(a:text, target_index)
+    if target_index < 0
       return -1
     endif
   endfor
-  return target_col_num
+  return target_index
 endfunction
 
 "" w for the built-in 'w' cursor motion 
-function! vim_easy_inline_motion#char_locator#get_n_b_target_char_col_num(text, n, start_position) 
-  let target_col_num = a:start_position
+function! vim_easy_inline_motion#char_locator#get_n_b_target_char_index(text, n, start_index) 
+  let target_index = a:start_index
   for i in range(a:n)
-    let target_col_num = _get_next_b_target_char_col_num(a:text, target_col_num)
-    if target_col_num < 0
+    let target_index = _get_next_b_target_char_index(a:text, target_index)
+    if target_index < 0
       return -1
     endif
   endfor
-  return target_col_num
+  return target_index
 endfunction
 
 "" Private functions {{{1
@@ -35,17 +35,17 @@ function! _is_in_w_target_char_set_2(char)
 endfunction
 
 "" w for the built-in 'w' cursor motion 
-function! _get_next_w_target_char_col_num(text, start_position) 
-  if a:start_position >= strlen(a:text) - 1 || a:start_position < 0
+function! _get_next_w_target_char_index(text, start_index) 
+  if a:start_index >= strlen(a:text) - 1 || a:start_index < 0
     return -1
   endif
 
-  let current_char = a:text[a:start_position]
+  let current_char = a:text[a:start_index]
   let w_set_that_current_char_in = 0 "" 0 value means current_char is not in any w target char set
   let w_set_that_current_char_in = _is_in_w_target_char_set_1(current_char) ? 1 : w_set_that_current_char_in
   let w_set_that_current_char_in = _is_in_w_target_char_set_2(current_char) ? 2 : w_set_that_current_char_in
 
-  for i in range(a:start_position + 1, strlen(a:text) - 1)
+  for i in range(a:start_index + 1, strlen(a:text) - 1)
     let new_char = a:text[i]
     let new_w_set = 0
     let new_w_set = _is_in_w_target_char_set_1(new_char) ? 1 : new_w_set
@@ -61,22 +61,22 @@ function! _get_next_w_target_char_col_num(text, start_position)
 endfunction
 
 "" b for the built-in 'b' cursor motion 
-function! _get_next_b_target_char_col_num(text, start_position) 
-  if a:start_position >= strlen(a:text) || a:start_position <= 0
+function! _get_next_b_target_char_index(text, start_index) 
+  if a:start_index >= strlen(a:text) || a:start_index <= 0
     return -1
   endif
 
-  let current_char = a:text[a:start_position - 1]
+  let current_char = a:text[a:start_index - 1]
   let w_set_that_current_char_in = 0 "" 0 value means current_char is not in any w target char set
   let w_set_that_current_char_in = _is_in_w_target_char_set_1(current_char) ? 1 : w_set_that_current_char_in
   let w_set_that_current_char_in = _is_in_w_target_char_set_2(current_char) ? 2 : w_set_that_current_char_in
 
-  if a:start_position == 1
+  if a:start_index == 1
     if w_set_that_current_char_in != 0
       return 0
     endif
   else
-    for i in reverse(range(0, a:start_position - 2))
+    for i in reverse(range(0, a:start_index - 2))
       let new_char = a:text[i]
       let new_w_set = 0
       let new_w_set = _is_in_w_target_char_set_1(new_char) ? 1 : new_w_set
