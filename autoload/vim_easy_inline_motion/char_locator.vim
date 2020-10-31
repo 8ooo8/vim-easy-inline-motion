@@ -11,6 +11,18 @@ function! vim_easy_inline_motion#char_locator#get_n_w_target_char_col_num(text, 
   return target_col_num
 endfunction
 
+"" w for the built-in 'w' cursor motion 
+function! vim_easy_inline_motion#char_locator#get_n_b_target_char_col_num(text, n, start_position) 
+  let target_col_num = a:start_position
+  for i in range(a:n)
+    let target_col_num = _get_next_b_target_char_col_num(a:text, target_col_num)
+    if target_col_num < 0
+      return -1
+    endif
+  endfor
+  return target_col_num
+endfunction
+
 "" Private functions {{{1
 "" w for the built-in 'w' cursor motion; w target set refers to the set of char w may jump to.
 function! _is_in_w_target_char_set_1(char) 
@@ -69,7 +81,6 @@ function! _get_next_b_target_char_col_num(text, start_position)
       let new_w_set = 0
       let new_w_set = _is_in_w_target_char_set_1(new_char) ? 1 : new_w_set
       let new_w_set = _is_in_w_target_char_set_2(new_char) ? 2 : new_w_set
-      echom 'i: ' .i . ', set: ' .w_set_that_current_char_in . ', new_set: ' .new_w_set .' ,new_char: ' .new_char
       if w_set_that_current_char_in != 0 && w_set_that_current_char_in != new_w_set
         return i + 1
       endif
