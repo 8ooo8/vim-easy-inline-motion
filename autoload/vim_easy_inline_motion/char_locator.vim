@@ -15,7 +15,7 @@ endfunction
 
 "" w for the built-in 'w' cursor motion 
 function! _locate_next_w_target_char(text, start_position) 
-  if a:start_position >= strlen(a:text) || a:start_position < 0
+  if a:start_position >= strlen(a:text) - 1 || a:start_position < 0
     return -1
   endif
 
@@ -39,4 +39,39 @@ function! _locate_next_w_target_char(text, start_position)
   return -1
 endfunction
 
-"" echo _locate_next_w_target_char('01 345  "9""2#4_ 7', 12)
+"" b for the built-in 'b' cursor motion 
+function! _locate_next_b_target_char(text, start_position) 
+  if a:start_position >= strlen(a:text) || a:start_position <= 0
+    return -1
+  endif
+
+  let current_char = a:text[a:start_position - 1]
+  let w_set_that_current_char_in = 0 "" 0 value means current_char is not in any w target char set
+  let w_set_that_current_char_in = _is_in_w_target_char_set_1(current_char) ? 1 : w_set_that_current_char_in
+  let w_set_that_current_char_in = _is_in_w_target_char_set_2(current_char) ? 2 : w_set_that_current_char_in
+
+  if a:start_position == 1
+    if w_set_that_current_char_in != 0
+      return 0
+    endif
+  else
+    for i in reverse(range(0, a:start_position - 2))
+      let new_char = a:text[i]
+      let new_w_set = 0
+      let new_w_set = _is_in_w_target_char_set_1(new_char) ? 1 : new_w_set
+      let new_w_set = _is_in_w_target_char_set_2(new_char) ? 2 : new_w_set
+      echom 'i: ' .i . ', set: ' .w_set_that_current_char_in . ', new_set: ' .new_w_set .' ,new_char: ' .new_char
+      if w_set_that_current_char_in != 0 && w_set_that_current_char_in != new_w_set
+        return i + 1
+      endif
+
+      let w_set_that_current_char_in = new_w_set
+    endfor
+  endif
+
+  if _is_in_w_target_char_set_1(a:text[0]) || _is_in_w_target_char_set_2(a:text[0])
+    return 0
+  endif
+
+  return -1
+endfunction
