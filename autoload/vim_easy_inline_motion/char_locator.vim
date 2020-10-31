@@ -1,5 +1,6 @@
 "" API {{{1
-function! vim_easy_inline_motion#char_locator#locate_n_w_target_char(text, n, start_position) "" w for the built-in 'w' cursor motion 
+"" w for the built-in 'w' cursor motion 
+function! vim_easy_inline_motion#char_locator#get_n_w_target_char_col_num(text, n, start_position) 
 endfunction
 
 "" Private functions {{{1
@@ -14,7 +15,7 @@ function! _is_in_w_target_char_set_2(char)
 endfunction
 
 "" w for the built-in 'w' cursor motion 
-function! _locate_next_w_target_char(text, start_position) 
+function! _get_next_w_target_char_col_num(text, start_position) 
   if a:start_position >= strlen(a:text) - 1 || a:start_position < 0
     return -1
   endif
@@ -40,7 +41,7 @@ function! _locate_next_w_target_char(text, start_position)
 endfunction
 
 "" b for the built-in 'b' cursor motion 
-function! _locate_next_b_target_char(text, start_position) 
+function! _get_next_b_target_char_col_num(text, start_position) 
   if a:start_position >= strlen(a:text) || a:start_position <= 0
     return -1
   endif
