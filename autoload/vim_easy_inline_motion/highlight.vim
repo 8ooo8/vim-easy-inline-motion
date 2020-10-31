@@ -14,7 +14,10 @@ endfunction
 
 function! vim_easy_inline_motion#highlight#clear_all_highlights()
   for id in s:highlight_match_id
-    call matchdelete(id) "" clear all matches created by this plugin
+    try 
+      call matchdelete(id) "" clear all matches created by this plugin
+    catch /\ce803/
+    endtry
   endfor
   let s:highlight_match_id = []
 endfunction
