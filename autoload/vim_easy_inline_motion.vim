@@ -1,4 +1,23 @@
 "" API {{{1
+function! vim_easy_inline_motion#turn_on_auto_highlight()
+  augroup vim-easy-inline-motion-auto-highlight
+    autocmd!
+    autocmd BufEnter,BufWritePost,CursorMoved,InsertLeave *
+      \ call vim_easy_inline_motion#highlight#clear_all_highlights() |
+      \ call vim_easy_inline_motion#highlight_all_requested_w_and_b_targets()
+    autocmd WinLeave,InsertEnter *
+      \ call vim_easy_inline_motion#highlight#clear_all_highlights()
+  augroup END
+
+  call vim_easy_inline_motion#highlight#clear_all_highlights()
+  call vim_easy_inline_motion#highlight_all_requested_w_and_b_targets()
+endfunction
+
+function! vim_easy_inline_motion#turn_off_auto_highlight()
+  autocmd! vim-easy-inline-motion-auto-highlight
+  call vim_easy_inline_motion#highlight#clear_all_highlights()
+endfunction
+
 function! vim_easy_inline_motion#highlight_all_requested_w_and_b_targets()
   let [curr_buf, curr_line, curr_col, curr_off, curr_curswant] = getcurpos()
 
