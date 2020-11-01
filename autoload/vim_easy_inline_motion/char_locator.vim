@@ -26,7 +26,7 @@ endfunction
 "" Private functions {{{1
 "" w for the built-in 'w' cursor motion; w target set refers to the set of char w may jump to.
 function! _is_in_w_target_char_set_1(char) 
-  return a:char =~ '\w' || a:char ==# '#'
+  return a:char =~ '\k' || a:char ==# '#'
 endfunction
 
 "" w for the built-in 'w' cursor motion; w target set refers to the set of char w may jump to.
