@@ -39,7 +39,7 @@ endfunction
 
 function! _get_highlight_group_name(cterm_color, gui_color)
   if a:cterm_color ==# '' && a:gui_color ==# ''
-    throw 'The ctermbg or/and guibg color(s) for the highlighting has/have to be defined.'
+    throw 'The ctermfg or/and guifg color(s) for the highlighting has/have to be defined.'
   endif
   "" retrieve the group name corresponding to the specified color
   "" from the exisiting group names
@@ -52,8 +52,8 @@ function! _get_highlight_group_name(cterm_color, gui_color)
   "" create a new group for the specified color
   let group_name = 'vim_easy_inline_motion_highlight_groups_' .len(s:highlight_groups)
   exe 'highlight ' .group_name 
-    \ .(strlen(a:cterm_color) > 0 ? ' ctermbg=' .a:cterm_color : '')
-    \ .(strlen(a:gui_color) > 0 ? ' guibg=' .a:gui_color : '')
+    \ .(strlen(a:cterm_color) > 0 ? ' ctermfg=' .a:cterm_color : '')
+    \ .(strlen(a:gui_color) > 0 ? ' guifg=' .a:gui_color : '')
   call add(s:highlight_groups, {'group_name': group_name, 'cterm_color': a:cterm_color, 'gui_color': a:gui_color})
   return group_name
 endfunction
