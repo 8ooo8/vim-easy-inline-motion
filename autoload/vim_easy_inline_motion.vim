@@ -1,5 +1,16 @@
+"" Variable declaration
+let s:auto_highlight_mode_is_on = 0
+
 "" API {{{1
-function! vim_easy_inline_motion#turn_on_auto_highlight()
+function! vim_easy_inline_motion#toggle_auto_highlight_mode()
+  if s:auto_highlight_mode_is_on
+    call vim_easy_inline_motion#turn_off_auto_highlight_mode()
+  else
+    call vim_easy_inline_motion#turn_on_auto_highlight_mode()
+  endif
+endfunction
+
+function! vim_easy_inline_motion#turn_on_auto_highlight_mode()
   augroup vim-easy-inline-motion-auto-highlight
     autocmd!
     autocmd BufEnter,BufWritePost,CursorMoved,InsertLeave *
@@ -9,12 +20,16 @@ function! vim_easy_inline_motion#turn_on_auto_highlight()
       \ call vim_easy_inline_motion#highlight#clear_all_highlights()
   augroup END
 
+  let s:auto_highlight_mode_is_on = 1
+
   call vim_easy_inline_motion#highlight#clear_all_highlights()
   call vim_easy_inline_motion#highlight_all_requested_w_and_b_targets()
 endfunction
 
-function! vim_easy_inline_motion#turn_off_auto_highlight()
+function! vim_easy_inline_motion#turn_off_auto_highlight_mode()
   autocmd! vim-easy-inline-motion-auto-highlight
+  let s:auto_highlight_mode_is_on = 0
+
   call vim_easy_inline_motion#highlight#clear_all_highlights()
 endfunction
 
