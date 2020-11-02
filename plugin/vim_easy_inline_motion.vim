@@ -25,3 +25,13 @@ let g:vim_easy_inline_motion_gui_colors = get(g:, 'vim_easy_inline_motion_gui_co
   \ [])
 let g:vim_easy_inline_motion_adjacent_lines = get(g:, 'vim_easy_inline_motion_adjacent_lines', 
   \ 1)
+
+
+"" User interface
+noremap <silent><Plug>(easy-inline-motion-toggle-auto-highlight-mode) :silent call
+  \ vim_easy_inline_motion#toggle_auto_highlight_mode()<CR>
+command! EasyInlineMotionOn silent call vim_easy_inline_motion#turn_on_auto_highlight_mode()
+command! EasyInlineMotionOff silent call vim_easy_inline_motion#turn_off_auto_highlight_mode()
+
+"" Turn on auto highlight mode
+silent call vim_easy_inline_motion#turn_on_auto_highlight_mode()
