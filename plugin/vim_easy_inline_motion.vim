@@ -4,28 +4,26 @@
 "" License: MIT
 
 "" Script loading control
-if expand('%:p') ==# expand('<sFile>:p')
-  unlet g:easyInlineMotion_loaded
-endif
 if v:version < 800
-  echoe '[Vim-easy-inline-motion]: Please update your vim to a verion 8 or higher.' | finish
+  echoe '[Vim-easy-inline-motion] Please update your vim to a verion 8 or higher.' | finish
 endif
 if &cp 
   echoe '[Vim-easy-inline-motion] Not Vi-compatible. ":set nocp" to solve it.' | finish
 endif
 if exists('g:easyInlineMotion_loaded') && g:easyInlineMotion_loaded 
+  echom '[Vim-easy-inline-motion] This plugin was already loaded.'
   finish
 endif
 let g:easyInlineMotion_loaded = 1
 
 "" Default configuration
-let g:vim_easy_inline_motion_cterm_colors = get(g:, 'vim_easy_inline_motion_cterm_colors', 
-  \ ['lightred', 'red', 'lightblue', 'blue'])
+let g:vim_easy_inline_motion_cterm_colors = get(g:, 'vim_easy_inline_motion_cterm_colors',
+  \ [9, 13, 11, 10, 1, 5, 3, 28])
 let g:vim_easy_inline_motion_gui_colors = get(g:, 'vim_easy_inline_motion_gui_colors', 
-  \ [])
+  \ ['#ff0000', '#ff00ff', '#ffff00', '#00ff00', '#800000', '#800080', '#808000', '#00af00'])
 let g:vim_easy_inline_motion_adjacent_lines = get(g:, 'vim_easy_inline_motion_adjacent_lines', 
-  \ 1)
-
+  \ 8)
+let g:vim_easy_inline_motion_adjacent_lines = 1
 
 "" User interface
 noremap <silent><Plug>(easy-inline-motion-toggle-auto-highlight-mode) :silent call
