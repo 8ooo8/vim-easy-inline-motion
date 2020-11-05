@@ -4,15 +4,15 @@ let s:highlight_match_id = [] "" storing all match id; no record about what is h
 let s:supported_encoding = ['utf-8']
 
 "" API {{{1
-function! vim_easy_inline_motion#highlight#highlight_at(line, col, cterm_color, gui_color)
+function! easy_inline_motion#highlight#highlight_at(line, col, cterm_color, gui_color)
   if !_encoding_is_supoorted()
-    echohl WarningMsg | echo '[vim-easy-inline-motion] Warning: the current encoding method is not supported.'
+    echohl WarningMsg | echo '[Easy-Inline-Motion] Warning: the current encoding method is not supported.'
   endif
   let group_name = _get_highlight_group_name(a:cterm_color, a:gui_color)
   call _add_highlight_match(a:line, a:col, group_name)
 endfunction
 
-function! vim_easy_inline_motion#highlight#clear_all_highlights()
+function! easy_inline_motion#highlight#clear_all_highlights()
   for id in s:highlight_match_id
     try 
       call matchdelete(id) "" clear all matches created by this plugin
@@ -50,7 +50,7 @@ function! _get_highlight_group_name(cterm_color, gui_color)
   endfor 
 
   "" create a new group for the specified color
-  let group_name = 'vim_easy_inline_motion_highlight_groups_' .len(s:highlight_groups)
+  let group_name = 'easy_inline_motion_highlight_groups_' .len(s:highlight_groups)
   exe 'highlight ' .group_name 
     \ .(strlen(a:cterm_color) > 0 ? ' ctermfg=' .a:cterm_color : '')
     \ .(strlen(a:gui_color) > 0 ? ' guifg=' .a:gui_color : '')

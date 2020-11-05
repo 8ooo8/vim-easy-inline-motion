@@ -1,6 +1,6 @@
 "" API {{{1
 "" w for the built-in 'w' cursor motion 
-function! vim_easy_inline_motion#char_locator#get_n_w_target_char_index(text, n, start_index) 
+function! easy_inline_motion#char_locator#get_n_w_target_char_index(text, n, start_index) 
   let target_index = a:start_index
   for i in range(a:n)
     let target_index = _get_next_w_target_char_index(a:text, target_index)
@@ -12,7 +12,7 @@ function! vim_easy_inline_motion#char_locator#get_n_w_target_char_index(text, n,
 endfunction
 
 "" w for the built-in 'w' cursor motion 
-function! vim_easy_inline_motion#char_locator#get_n_b_target_char_index(text, n, start_index) 
+function! easy_inline_motion#char_locator#get_n_b_target_char_index(text, n, start_index) 
   let target_index = a:start_index
   for i in range(a:n)
     let target_index = _get_next_b_target_char_index(a:text, target_index)
