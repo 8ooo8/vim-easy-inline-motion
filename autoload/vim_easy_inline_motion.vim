@@ -13,7 +13,7 @@ endfunction
 function! vim_easy_inline_motion#turn_on_auto_highlight_mode()
   augroup vim-easy-inline-motion-auto-highlight
     autocmd!
-    autocmd BufEnter,BufWritePost,CursorMoved,InsertLeave *
+    autocmd BufEnter,TextChanged,CursorMoved,InsertLeave *
       \ call vim_easy_inline_motion#highlight#clear_all_highlights() |
       \ call vim_easy_inline_motion#highlight_all_requested_w_and_b_targets()
     autocmd WinLeave,InsertEnter *
