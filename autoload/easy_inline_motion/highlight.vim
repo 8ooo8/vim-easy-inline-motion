@@ -9,7 +9,7 @@ let s:shade_color = {'cterm': 8, 'gui': '#808080'}
 "" API {{{1
 function! easy_inline_motion#highlight#shade_line(line)
   let group_name = _get_highlight_group_name(s:shade_color['cterm'], s:shade_color['gui'])
-  let match_id = matchadd(group_name, '\m\%' .a:line .'l')
+  let match_id = matchadd(group_name, '\m\%' .a:line .'l', -1)
   let buffer_id = bufnr()
   call _store_highlight_match_id(buffer_id, match_id)
 endfunction
