@@ -13,11 +13,15 @@ endfunction
 function! easy_inline_motion#turn_on_auto_highlight_mode()
   augroup easy-inline-motion-auto-highlight
     autocmd!
-    autocmd BufEnter,TextChanged,CursorMoved,InsertLeave *
-      \ call easy_inline_motion#highlight#clear_all_highlights() |
-      \ call easy_inline_motion#highlight_all_requested_w_and_b_targets()
+    autocmd TextChanged,CursorMoved,InsertLeave *
+      \ if &filetype !=? 'nerdtree' |
+      \   call easy_inline_motion#highlight#clear_all_highlights() |
+      \   call easy_inline_motion#highlight_all_requested_w_and_b_targets() |
+      \ endif 
     autocmd WinLeave,InsertEnter *
-      \ call easy_inline_motion#highlight#clear_all_highlights()
+      \ if &filetype !=? 'nerdtree' |
+      \   call easy_inline_motion#highlight#clear_all_highlights() |
+      \ endif 
   augroup END
 
   let s:auto_highlight_mode_is_on = 1
