@@ -1,6 +1,8 @@
 "" Variable declaration {{{1
 let s:highlight_groups = []
-let s:highlight_match_id = [] "" storing all match id; no record about what is highlighted by the associated id
+"" The data structure of s:highlight_match_id is:
+"" {buffer_id_1: [match_id_1, ...], buffer_id_2: [...], ...}
+let s:highlight_match_id = {} 
 let s:supported_encoding = ['utf-8']
 let s:shade_color = {'cterm': 8, 'gui': '#808080'}
 
@@ -8,7 +10,8 @@ let s:shade_color = {'cterm': 8, 'gui': '#808080'}
 function! easy_inline_motion#highlight#shade_line(line)
   let group_name = _get_highlight_group_name(s:shade_color['cterm'], s:shade_color['gui'])
   let match_id = matchadd(group_name, '\m\%' .a:line .'l')
-  call add(s:highlight_match_id, match_id)
+  let buffer_id = bufnr()
+  call _store_highlight_match_id(buffer_id, match_id)
 endfunction
 
 function! easy_inline_motion#highlight#highlight_at(line, col, cterm_color, gui_color)
@@ -19,14 +22,19 @@ function! easy_inline_motion#highlight#highlight_at(line, col, cterm_color, gui_
   call _add_highlight_match(a:line, a:col, group_name)
 endfunction
 
-function! easy_inline_motion#highlight#clear_all_highlights()
-  for id in s:highlight_match_id
+function! easy_inline_motion#highlight#clear_current_buffer_highlights()
+  let buffer_id = bufnr()
+  if !exists('s:highlight_match_id[' .buffer_id .']')
+    return
+  endif
+
+  for match_id in s:highlight_match_id[buffer_id]
     try 
-      call matchdelete(id) "" clear all matches created by this plugin
+      call matchdelete(match_id) "" clear all matches created by this plugin
     catch /\ce803/
     endtry
   endfor
-  let s:highlight_match_id = []
+  let s:highlight_match_id[buffer_id] = []
 endfunction
 
 "" Private functions {{{1
@@ -40,8 +48,9 @@ function! _encoding_is_supoorted()
 endfunction
 
 function! _add_highlight_match(line, col, highlight_group_name)
-  let id = matchaddpos(a:highlight_group_name, [[a:line, a:col]])
-  call add(s:highlight_match_id, id)
+  let match_id = matchaddpos(a:highlight_group_name, [[a:line, a:col]])
+  let buffer_id = bufnr()
+  call _store_highlight_match_id(buffer_id, match_id)
 endfunction
 
 function! _get_highlight_group_name(cterm_color, gui_color)
@@ -63,4 +72,11 @@ function! _get_highlight_group_name(cterm_color, gui_color)
     \ .(strlen(a:gui_color) > 0 ? ' guifg=' .a:gui_color : '')
   call add(s:highlight_groups, {'group_name': group_name, 'cterm_color': a:cterm_color, 'gui_color': a:gui_color})
   return group_name
+endfunction
+
+function! _store_highlight_match_id(buffer_id, match_id)
+  if !exists('s:highlight_match_id[' .a:buffer_id .']')
+    let s:highlight_match_id[a:buffer_id] = []
+  endif
+  call add(s:highlight_match_id[a:buffer_id], a:match_id)
 endfunction

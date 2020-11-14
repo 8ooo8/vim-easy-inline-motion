@@ -15,19 +15,19 @@ function! easy_inline_motion#turn_on_auto_highlight_mode()
     autocmd!
     autocmd TextChanged,CursorMoved,InsertLeave *
       \ if &filetype !=? 'nerdtree' |
-      \   call easy_inline_motion#highlight#clear_all_highlights() |
+      \   call easy_inline_motion#highlight#clear_current_buffer_highlights() |
       \   call easy_inline_motion#shade_lines_to_be_highlighted() |
       \   call easy_inline_motion#highlight_all_requested_w_and_b_targets() |
       \ endif 
-    autocmd WinLeave,InsertEnter *
+    autocmd BufLeave,WinLeave,InsertEnter *
       \ if &filetype !=? 'nerdtree' |
-      \   call easy_inline_motion#highlight#clear_all_highlights() |
+      \   call easy_inline_motion#highlight#clear_current_buffer_highlights() |
       \ endif 
   augroup END
 
   let s:auto_highlight_mode_is_on = 1
 
-  call easy_inline_motion#highlight#clear_all_highlights()
+  call easy_inline_motion#highlight#clear_current_buffer_highlights()
   call easy_inline_motion#shade_lines_to_be_highlighted()
   call easy_inline_motion#highlight_all_requested_w_and_b_targets()
 endfunction
@@ -36,7 +36,7 @@ function! easy_inline_motion#turn_off_auto_highlight_mode()
   autocmd! easy-inline-motion-auto-highlight
   let s:auto_highlight_mode_is_on = 0
 
-  call easy_inline_motion#highlight#clear_all_highlights()
+  call easy_inline_motion#highlight#clear_current_buffer_highlights()
 endfunction
 
 function! easy_inline_motion#shade_lines_to_be_highlighted()
