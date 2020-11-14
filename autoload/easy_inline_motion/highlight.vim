@@ -4,11 +4,13 @@ let s:highlight_groups = []
 "" {buffer_id_1: [match_id_1, ...], buffer_id_2: [...], ...}
 let s:highlight_match_id = {} 
 let s:supported_encoding = ['utf-8']
-let s:shade_color = {'cterm': 8, 'gui': '#808080'}
 
 "" API {{{1
 function! easy_inline_motion#highlight#shade_line(line)
-  let group_name = _get_highlight_group_name(s:shade_color['cterm'], s:shade_color['gui'])
+  if !g:easy_inline_motion_shading_on
+    return
+  endif
+  let group_name = _get_highlight_group_name(g:easy_inline_motion_shade_cterm_color, g:easy_inline_motion_shade_gui_color)
   let match_id = matchadd(group_name, '\m\%' .a:line .'l', -1)
   let buffer_id = bufnr()
   call _store_highlight_match_id(buffer_id, match_id)

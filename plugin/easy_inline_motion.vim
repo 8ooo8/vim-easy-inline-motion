@@ -27,12 +27,20 @@ let g:easy_inline_motion_gui_colors = get(g:, 'easy_inline_motion_gui_colors',
 let g:easy_inline_motion_preview_lines = get(g:, 'easy_inline_motion_preview_lines', 
   \ 8)
 let g:easy_inline_motion_preview_lines = 1
+let g:easy_inline_motion_shading_on = get(g:, 'easy_inline_motion_shading_on', 1)
+let g:easy_inline_motion_shade_cterm_color = get(g:, 'easy_inline_motion_shade_cterm_color', 8)
+let g:easy_inline_motion_shade_gui_color = get(g:, 'easy_inline_motion_shade_gui_color', '#808080')
 
 "" User interface
 noremap <silent><Plug>(easy-inline-motion-toggle-auto-highlight-mode) :silent call
   \ easy_inline_motion#toggle_auto_highlight_mode()<CR>
 command! EasyInlineMotionOn silent call easy_inline_motion#turn_on_auto_highlight_mode()
 command! EasyInlineMotionOff silent call easy_inline_motion#turn_off_auto_highlight_mode()
+noremap <silent><Plug>(easy-inline-motion-toggle-shading-mode) :silent call
+  \ easy_inline_motion#toggle_shading_mode()<CR>
+command! EasyInlineMotionShadingOn silent call easy_inline_motion#turn_on_shading_mode()
+command! EasyInlineMotionShadingOff silent call easy_inline_motion#turn_off_shading_mode()
+  \ easy_inline_motion#toggle_auto_highlight_mode()<CR>
 
 "" Turn on auto highlight mode
 silent call easy_inline_motion#turn_on_auto_highlight_mode()

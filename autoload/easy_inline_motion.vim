@@ -2,6 +2,24 @@
 let s:auto_highlight_mode_is_on = 0
 
 "" API {{{1
+function! easy_inline_motion#toggle_shading_mode()
+  if g:easy_inline_motion_shading_on
+    call easy_inline_motion#turn_off_shading_mode()
+  else
+    call easy_inline_motion#turn_on_shading_mode()
+  endif
+endfunction
+
+function! easy_inline_motion#turn_off_shading_mode()
+  let g:easy_inline_motion_shading_on = 0
+  call easy_inline_motion#refresh_highlight()
+endfunction
+
+function! easy_inline_motion#turn_on_shading_mode()
+  let g:easy_inline_motion_shading_on = 1
+  call easy_inline_motion#refresh_highlight()
+endfunction
+
 function! easy_inline_motion#toggle_auto_highlight_mode()
   if s:auto_highlight_mode_is_on
     call easy_inline_motion#turn_off_auto_highlight_mode()
@@ -26,10 +44,7 @@ function! easy_inline_motion#turn_on_auto_highlight_mode()
   augroup END
 
   let s:auto_highlight_mode_is_on = 1
-
-  call easy_inline_motion#highlight#clear_current_buffer_highlights()
-  call easy_inline_motion#shade_lines_to_be_highlighted()
-  call easy_inline_motion#highlight_all_requested_w_and_b_targets()
+  call easy_inline_motion#refresh_highlight()
 endfunction
 
 function! easy_inline_motion#turn_off_auto_highlight_mode()
@@ -78,4 +93,10 @@ function! easy_inline_motion#highlight_w_and_b_targets_on_specified_cursor_posit
       call easy_inline_motion#highlight#highlight_at(a:line, b_target_char_col, cterm_color, gui_color)
     endif
   endfor
+endfunction
+
+function! easy_inline_motion#refresh_highlight()
+    call easy_inline_motion#highlight#clear_current_buffer_highlights()
+    call easy_inline_motion#shade_lines_to_be_highlighted()
+    call easy_inline_motion#highlight_all_requested_w_and_b_targets()
 endfunction
