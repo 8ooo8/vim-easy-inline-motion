@@ -1,4 +1,4 @@
-"" Version: 0.0.0
+"" Version: 0.1.0
 "" Author: 8ooo8 <ben.cky.workspace@gmail.com>
 "" Source: github.com/8ooo8/vim-easy-inline-motion
 "" License: MIT
