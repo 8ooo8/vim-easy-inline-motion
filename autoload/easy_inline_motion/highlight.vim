@@ -2,8 +2,15 @@
 let s:highlight_groups = []
 let s:highlight_match_id = [] "" storing all match id; no record about what is highlighted by the associated id
 let s:supported_encoding = ['utf-8']
+let s:shade_color = {'cterm': 8, 'gui': '#808080'}
 
 "" API {{{1
+function! easy_inline_motion#highlight#shade_line(line)
+  let group_name = _get_highlight_group_name(s:shade_color['cterm'], s:shade_color['gui'])
+  let match_id = matchadd(group_name, '\m\%' .a:line .'l')
+  call add(s:highlight_match_id, match_id)
+endfunction
+
 function! easy_inline_motion#highlight#highlight_at(line, col, cterm_color, gui_color)
   if !_encoding_is_supoorted()
     echohl WarningMsg | echo '[Easy-Inline-Motion] Warning: the current encoding method is not supported.'

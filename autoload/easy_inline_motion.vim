@@ -16,6 +16,7 @@ function! easy_inline_motion#turn_on_auto_highlight_mode()
     autocmd TextChanged,CursorMoved,InsertLeave *
       \ if &filetype !=? 'nerdtree' |
       \   call easy_inline_motion#highlight#clear_all_highlights() |
+      \   call easy_inline_motion#shade_lines_to_be_highlighted() |
       \   call easy_inline_motion#highlight_all_requested_w_and_b_targets() |
       \ endif 
     autocmd WinLeave,InsertEnter *
@@ -27,6 +28,7 @@ function! easy_inline_motion#turn_on_auto_highlight_mode()
   let s:auto_highlight_mode_is_on = 1
 
   call easy_inline_motion#highlight#clear_all_highlights()
+  call easy_inline_motion#shade_lines_to_be_highlighted()
   call easy_inline_motion#highlight_all_requested_w_and_b_targets()
 endfunction
 
@@ -35,6 +37,14 @@ function! easy_inline_motion#turn_off_auto_highlight_mode()
   let s:auto_highlight_mode_is_on = 0
 
   call easy_inline_motion#highlight#clear_all_highlights()
+endfunction
+
+function! easy_inline_motion#shade_lines_to_be_highlighted()
+  let [curr_buf, curr_line, curr_col, curr_off, curr_curswant] = getcurpos()
+
+  for line in range(curr_line - g:easy_inline_motion_preview_lines, curr_line + g:easy_inline_motion_preview_lines)
+    call easy_inline_motion#highlight#shade_line(line)
+  endfor
 endfunction
 
 function! easy_inline_motion#highlight_all_requested_w_and_b_targets()
