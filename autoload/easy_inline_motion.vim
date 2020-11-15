@@ -67,12 +67,13 @@ function! easy_inline_motion#shade_lines_to_be_highlighted()
 endfunction
 
 function! easy_inline_motion#highlight_all_requested_w_and_b_targets()
-  let [curr_buf, curr_line, curr_col, curr_off, curr_curswant] = getcurpos()
+  let [curr_buf, curr_line, curr_col, curr_off, curr_curswant_in_virtcol] = getcurpos()
 
   ""highlight as requested
   for line in range(curr_line - g:easy_inline_motion_preview_lines, curr_line + g:easy_inline_motion_preview_lines)
     let rightmost_col = strlen(getline(line))
-    let col = curr_curswant <= rightmost_col ? curr_curswant : rightmost_col
+    let curr_curswant_in_col = easy_inline_motion#char_locator#get_col_by_virtual_col(line, curr_curswant_in_virtcol)
+    let col = curr_curswant_in_col <= rightmost_col ? curr_curswant_in_col : rightmost_col
     call easy_inline_motion#highlight_w_and_b_targets_on_specified_cursor_position(line, col)
   endfor
 endfunction

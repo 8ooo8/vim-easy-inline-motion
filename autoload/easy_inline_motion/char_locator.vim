@@ -1,4 +1,31 @@
 "" API {{{1
+"" Expected that only tab char make the column different from the virtual column.
+"" (":h col()", ":h virtcol()" for the definition of the column and virtual column.)
+"" (In help filetype, not only tab characters may bring the difference.)
+function! easy_inline_motion#char_locator#get_col_by_virtual_col(line, virtual_col)
+  let text = getline(a:line)
+  let index = 0
+  let virtual_col_for_index = 0
+
+  for index in range(len(text))
+    let virtual_col_for_index += 1
+    if text[index] =~ '\t'
+      for i in range(&tabstop - 1)
+        if virtual_col_for_index % &tabstop == 0
+          break
+        endif
+        let virtual_col_for_index += 1
+      endfor
+    endif
+    
+    if virtual_col_for_index >= a:virtual_col
+      return index + 1
+    endif
+  endfor
+
+  return index + 1
+endfunction
+
 "" w for the built-in 'w' cursor motion 
 function! easy_inline_motion#char_locator#get_n_w_target_char_index(text, n, start_index) 
   let target_index = a:start_index
