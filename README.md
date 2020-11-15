@@ -42,6 +42,8 @@ The colors is configurable, see [color configuration](#the-geasy_inline_motion_c
 |Coverage: current and adjacent lines|Coverage: whole buffer|vim-easy-inline-motion **lacks an ability to instantly reach faraway targets**|
 |Not direct support to an instant jump to non-word-tip characters|Direct support to an instant jump to non-word-tip characters|vim-easy-inline-motion **lacks a direct support to an instant jump to non-word-tip characters**| 
 
+Please note that to keep an easy reading of [vim-easymotion][vim-easymotion-repo]'s highlights, [this plugin][vim-easy-inline-motion-repo] hides its highlights when [vim-easymotion][vim-easymotion-repo]'s functions are triggered.
+
 ## Installation
 
 For example, with plugin manager, [vim-plug][vim-plug-repo]:
@@ -173,5 +175,7 @@ This commands turns off the shading.
   
 [cterm-color-cheat-sheet]: https://jonasjacek.github.io/colors/
 [what-cterm-gui-are]: https://stackoverflow.com/questions/60590376/what-is-the-difference-between-cterm-color-and-gui-color
+[NERDTree-repo]: https://github.com/preservim/nerdtree
 [vim-easymotion-repo]: https://github.com/easymotion/vim-easymotion
+[vim-easy-inline-motion-repo]: https://github.com/8ooo8/vim-easy-inline-motion
 [vim-plug-repo]: https://github.com/junegunn/vim-plug
