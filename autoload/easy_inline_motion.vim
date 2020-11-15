@@ -41,6 +41,10 @@ function! easy_inline_motion#turn_on_auto_highlight_mode()
       \ if &filetype !=? 'nerdtree' |
       \   call easy_inline_motion#highlight#clear_current_buffer_highlights() |
       \ endif 
+    autocmd CmdlineChanged *
+      \ if !exists('*EasyMotion#is_active') || !EasyMotion#is_active() |
+      \   call easy_inline_motion#highlight#clear_current_buffer_highlights() |
+      \ endif
   augroup END
 
   let s:auto_highlight_mode_is_on = 1
