@@ -2,7 +2,7 @@
 
 ![The snapshot of the highlight][highlight-snapshot]
 
-Have you ever thought of **utilizing the cursor motion command like `7w` and `8b`**? This plugin highlights the tips of the words so that with the highlight colors, users may immediately know the exact cursor motion command to instantly reach their target words.
+Have you ever thought of **utilizing the cursor motion command like `7w` and `8b`**? Not easy to do so because hard to immediately judge how far the target word is away from our cursor? This plugin highlights the word tips with different colors so that users may immediately know the exact `w` or `b` command to instantly reach their target words.
 
 ## Table of content
 
@@ -37,8 +37,8 @@ The colors is configurable, see [color configuration](#the-geasy_inline_motion_c
 
 |vim-easy-inline-motion|vim-easy-motion|Comparison|
 |-|-|-|
-|Highlight with colors|Characters as the indicators of the target characters|**Reading colors consumes less time** if familiar with the colors|
-|Auto highlighting|Mapped keys to trigger functions|**Auto highlighting saves time on typing mapped keys**|
+|Highlight with colors|Make use of characters to declare the users' target words|**Reading colors consumes less time** than reading characters|
+|Auto highlighting|Type the mapped keys to use its features|**Auto highlighting saves time on typing the mapped keys**|
 |Coverage: current and adjacent lines|Coverage: whole buffer|vim-easy-inline-motion **lacks an ability to instantly reach faraway targets**|
 |Not direct support to an instant jump to non-word-tip characters|Direct support to an instant jump to non-word-tip characters|vim-easy-inline-motion **lacks a direct support to an instant jump to non-word-tip characters**| 
 
