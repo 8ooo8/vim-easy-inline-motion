@@ -30,6 +30,10 @@ let g:easy_inline_motion_preview_lines = 1
 let g:easy_inline_motion_shading_on = get(g:, 'easy_inline_motion_shading_on', 1)
 let g:easy_inline_motion_shade_cterm_color = get(g:, 'easy_inline_motion_shade_cterm_color', 8)
 let g:easy_inline_motion_shade_gui_color = get(g:, 'easy_inline_motion_shade_gui_color', '#808080')
+let g:easy_inline_motion_ignore_filetypes = get(g:, 'easy_inline_motion_ignore_filetypes', [])
+call extend(g:easy_inline_motion_ignore_filetypes, ['qf', 'nerdtree', 'help'])
+let g:easy_inline_motion_ignore_filenames = get(g:, 'easy_inline_motion_ignore_filenames', [])
+call extend(g:easy_inline_motion_ignore_filenames, ['^zsh$'])
 
 "" User interface
 noremap <silent><Plug>(easy-inline-motion-toggle-auto-highlight-mode) :silent call

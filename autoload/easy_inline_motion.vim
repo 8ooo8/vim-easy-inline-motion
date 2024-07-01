@@ -28,17 +28,23 @@ function! easy_inline_motion#toggle_auto_highlight_mode()
   endif
 endfunction
 
+function! s:shouldIgnoreCurrentFile()
+  let shouldIgnore = len(filter(copy(g:easy_inline_motion_ignore_filetypes), '"' .&filetype .'" ==? v:val'))
+  let shouldIgnore = shouldIgnore || len(filter(copy(g:easy_inline_motion_ignore_filenames), '"' .expand('%:p:t') .'" =~? v:val'))
+  return shouldIgnore
+endfunction
+
 function! easy_inline_motion#turn_on_auto_highlight_mode()
   augroup easy-inline-motion-auto-highlight
     autocmd!
     autocmd TextChanged,CursorMoved,InsertLeave *
-      \ if &filetype !=? 'nerdtree' && &filetype !=? 'help' |
+      \ if !s:shouldIgnoreCurrentFile() |
       \   call easy_inline_motion#highlight#clear_current_buffer_highlights() |
       \   call easy_inline_motion#shade_lines_to_be_highlighted() |
       \   call easy_inline_motion#highlight_all_requested_w_and_b_targets() |
       \ endif 
     autocmd BufLeave,WinLeave,InsertEnter *
-      \ if &filetype !=? 'nerdtree' && &filetype !=? 'help' |
+      \ if !s:shouldIgnoreCurrentFile() |
       \   call easy_inline_motion#highlight#clear_current_buffer_highlights() |
       \ endif 
     autocmd CmdlineChanged *

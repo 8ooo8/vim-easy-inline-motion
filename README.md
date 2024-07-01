@@ -28,7 +28,7 @@ The colors is configurable, see [color configuration](#the-geasy_inline_motion_c
 
 1. This plugin **highlights characters** that built-in cursor motion command, **`w` and `b`, may jump to**.
 1. In the case that **the word tips supposed to be highlighted are out of the current line, they are not highlighted.** For instance, the cursor is at the end of a line, the next word tips are not highlighted since they are out of the current line.
-1. It can be **configured to preview the highlighting of the adjacent lines** -- preview the highlighting as the cursor is moved to the adjacent lines using `j` or `k` or `<up>` or `<down>`. See [g:easy_inline_motion_preview_lines](#the-geasy_inline_motion_preview_lines-option) for its configuration.
+1. It can be **configured to preview the highlighting of the adjacent lines** -- preview the highlighting as if the cursor is moved to the adjacent lines using `j` or `k` or `<up>` or `<down>`. See [g:easy_inline_motion_preview_lines](#the-geasy_inline_motion_preview_lines-option) for its configuration.
 1. The highlighting is off when it is in the insert mode.
 1. The highlighting can be turned on/off and toggled using [commands](#the-easyinlinemotionon-command) or [mapped keys](#map-a-key-to-toggle-the-auto-highlighting).
 1. It can be configured to shade the lines getting highlighted (shade: turn other characters grey so that the reading of the highlight colors becomes easier). See [configuration](#the-geasy_inline_motion_shading_on-option), [commands](#the-easyinlinemotionshadingon-command) and [mapped keys](#Map-a-key-to-toggle-the-shading) for more information.
@@ -129,6 +129,26 @@ let g:easy_inline_motion_shading_gui_colors = '#808080'
 ```vim
 "" 1 value to preview 1 upper and 1 below lines.
 let g:easy_inline_motion_preview_lines = 1
+```
+
+### The ignorance of files
+
+This plugin will not work on the files with types and names specified in below options. Set up the values for below options before loading the plugin, unless you do not want the default appended values.
+
+#### The `g:easy_inline_motion_ignore_filetypes` option
+
+```vim
+"" The values are case insensitive.
+"" By default, values of 'qf', 'nerdtree', 'help' are appended
+let g:easy_inline_motion_ignore_filetypes = ['text']
+```
+
+#### The `g:easy_inline_motion_ignore_filenames` option
+
+```vim
+"" The values are treated as regular expressions and case insensitive.
+"" By default, value of '^zsh$' is appended
+let g:easy_inline_motion_ignore_filenames = ['^todo$', '^sh$'] " value 'sh' to ignore terminals running on sh
 ```
 
 ## Commands
